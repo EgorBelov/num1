@@ -12,6 +12,33 @@ using namespace std;
 
 int G() 
 {
+	int n, q, m;
+	cin >> n;
+	vector <int> mp;
+	for (int i = 0; i < n; i++) 
+	{
+		cin >> q;
+		mp.push_back(q);
+	}
+	for (int i = 0; i < n; i++) 
+	{
+		m = mp[i];
+		if (m == 3) {
+			cout << -1 << endl;
+		}
+		else {
+			for (int j = (m / 2) + 1; j <= m; j++)
+			{
+				cout << j << " ";
+			}
+			for (int j = (m / 2); j >= 1; j--)
+			{
+				cout << j << " ";
+			}
+			cout << endl;
+		}
+		
+	}
 	return 0;
 }
 int C()
@@ -32,10 +59,10 @@ int C()
 		w = 0;
 		sum = 0;
 		cin >> q;
-		do {
+		while (sum < q) {
 			sum += mp[w];
 			w++;
-		} while (sum < q);
+		} 
 		cout << w << endl;
 	}
 	cin.close();
@@ -44,61 +71,27 @@ int C()
 }
 int F()
 {
-	ifstream cin("input.txt");
-	ofstream cout("output.txt");
-	int t, x, y, i , w  , a ;
-	vector <int> arr;
-	cin >> t;
-	for (int j = 0; j < t; j++)
-	{
-		cin >> x >> y;
-		if (x != 1) {
-			i = 1, w = 2;
-			a = y / x;
-			if (a != 1)
-				for (i = 2; i <= sqrt(a); i++)
-				{
-					w = 0;
-					if (a % i == 0)
-						while (a != 1)
-						{
-							if (a % i != 0)
+	int n;
+	cin >> n;
 
-								break;
-							a /= i; w++;
-						}
-					if (a == 1)
-					{
-						break;
-					}
-					a = y / x;
-				}
-			if (a == 1)
-			{
-				arr.push_back(w);
-				arr.push_back(i);
-			}
-			else {
-				arr.push_back(0);
-				arr.push_back(0);
-			}
-		}
-		else {
-			arr.push_back(x);
-			arr.push_back(y);
-		}
-	}
-	int st = 0;
-
-	for (i = 0; i < t; i++) 
+	for (int i = 0; i < n; i++)
 	{
-		cout << arr[st] << " ";
-		st++;
-		cout << arr[st] << endl;
-		st++;
+		int a;
+		int b;
+		cin >> a;
+		cin >> b;
+
+		if (b % a != 0)
+		{
+			cout << "0 0";
+		}
+		else
+		{
+			cout << 1 << " " << b / a;
+		}
+		cout << "\n";
 	}
-	cin.close();
-	cout.close();
+	
 	return 0;
 }
 int A()
@@ -181,23 +174,65 @@ int D()
 }
 int E()
 {
-	int n, b, num = 0, max = 0, x, numMax;
-	vector<int> arr;
+	int n, b, num = 0, max, min , x = 0, numMax;
+	vector<int> arr1, arr2;
 	cin >> n;
 	int minp = INT32_MAX;
-
+	
 	for (int i = 0; i < n; i++)
 	{
 		cin >> b;
-		arr.push_back(b);
+		arr1.push_back(b);
+		
+	}
+	//cout << arr1.size();
+	while (!arr1.empty()) {
+		x -= -1;
+		max = *max_element(arr1.begin(), arr1.end());
+		//cout << max << endl;
+		min = *min_element(arr1.begin(), arr1.end());
+		//cout << min << endl;
+		for (int i = 0; i < arr1.size(); i++) {
+			if (max == arr1[i]) {
+				auto iter = arr1.cbegin();
+				arr1.erase(iter + i);
+				break;
+			}
+		}
+		//arr1.erase(std::remove(arr1.begin(), arr1.end(), max), arr1.end());
+		copy(arr1.begin(), arr1.end(), back_inserter(arr2));
+		while (max != min) {
+			numMax = *max_element(arr2.begin(), arr2.end());
+			//cout << numMax << endl;
+			if (numMax != max) {
+				for (int i = 0; i < arr1.size(); i++) {
+					if (numMax == arr1[i]) {
+						auto iter = arr1.cbegin();
+						arr1.erase(iter + i);
+						break;
+					}
+				}
+				//arr1.erase(std::remove(arr1.begin(), arr1.end(), numMax), arr1.end());
+				max = numMax;
+			}
+			for (int i = 0; i < arr2.size(); i++) {
+				if (numMax == arr2[i]) {
+					auto iter = arr2.cbegin();
+					arr2.erase(iter + i);
+					break;
+				}
+			}
+			//arr2.erase(std::remove(arr2.begin(), arr2.end(), numMax), arr2.end());
+		}
 	}
 	
-	
-	cout << arr[0];
+	cout << x;
 	return 0;
 }
 
-int main() {
-	F();
+
+int main()
+{
+	E();
 	return 0;
 }
